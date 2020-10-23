@@ -4,10 +4,11 @@
 
 # COVID-19 Machine Learning Analysis
 ## Team Members:
+- Grant Thompson
 - Alexis Perumal
 - Arundhati Chakraborty
 - David Jaimes
-- Grant Thompson
+
 
 ## Source Dataset:
 Our machine learning models uses data from the UNCOVER COVID-19 Challenge. Shared by the Roche Data Science Coalition (RDSC), they are requesting the collaborative effort of the AI community to fight COVID-19. This challenge presents a curated collection of datasets from 20 global sources and asks you to model solutions to key questions that were developed and evaluated by a global frontline of healthcare providers, hospitals, suppliers, and policy makers.
