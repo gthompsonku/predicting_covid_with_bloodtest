@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="eng">
+<!--From https://codepen.io/frytyler/pen/EGdtg-->
+<head>
+  <meta charset="UTF-8">
+ <title>ML COVID-19 API</title>
+  <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+<!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  
+</head>
+
+<body>
+<!-- Nav Bar -->
+  <nav class="navbar navbar-custom navbar-expand-lg">
+  <a class="navbar-brand" href="/">COVID-19</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item ">
+        <a class="nav-link active-nav" href="/">Prediction <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/comparison">Comparison</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Models
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="/LR">LR</a>
+          <a class="dropdown-item" href="/RFC">RFC</a>
+          <a class="dropdown-item" href="/SVC">SVC</a>
+           <!-- <a class="dropdown-item" href="/sequential">Sequential</a> -->
+        </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+ <!-- Nav Bar -->
+<!--[ container ] -->
+  <div class="container">
+    <div class="row justify-content-center">
+    <div class="col-md">
+
+      <!-- Introduction -->
+      <h1 class="display-6 text-center mt-5 mb-3">Classification Algorithm - Logistic Regression</h1>
+      <hr class="my-4">
+      <p>Our regression model uses data from the <a href="https://www.kaggle.com/roche-data-science-coalition/uncover">UNCOVER COVID-19 Challenge</a>. Shared by the Roche Data Science Coalition (RDSC), they are requesting the collaborative effort of the AI community to fight COVID-19. This challenge presents a curated collection of datasets from 20 global sources and asks you to model solutions to key questions that were developed and evaluated by a global frontline of healthcare providers, hospitals, suppliers, and policy makers.</p>
+      <p>This model uses the Machine Learning code from <strong>scikit-learn</strong>. It is a Python-based module that is simple and efficient to utilize for preditive data analysis.</p>
+      <a class="btn btn-primary btn-lg" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html" role="button">Learn more</a>
+      <hr class="my-4">
+
+      <!-- ALERT disclaimer -->
+      <div class="alert alert-info mb-5" role="alert">
+        <strong>Disclaimer:</strong> This tool does not provide medical advice. It is intended for informational purposes only. It is not a substitute for professional medical advice, diagnosis or treatment. Never ignore professional medical advice in seeking treatment because of something you come across. If you think you may have a medical emergency, immediately call your doctor or dial 911.
+      </div>
+
+      <!-- TLDR -->
+      <p><h1>tldr;</h1> Our results for our predictive model:</p>
+      <div class="row mb-5">
+        {% for x, y in result %}
+        <div class="col-lg-4">
+          <div class="card text-center m-3">
+            <div class="card-body">
+              <h5 class="card-title">{{ x }}</h5>
+              <h1 class="display-3">{{ y }}</h1>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <!-- Data Information -->
+      <h1 class="display-6 mt-5 mb-3">Data Information</h1>
+      <p>The original data file had over 5,000 rows  and over 100 columns of patient, blood test results. Similar to the our form in the home page, we only picked the following 11 columns from the blood test:</p>
+      <ul>
+        <li>patient_age_quantile</li>
+        <li>leukocytes</li>
+        <li>platelets</li>
+        <li>monocytes</li>
+        <li>hematocrit</li>
+        <li>eosinophils</li>
+        <li>red_blood_cells</li>
+        <li>hemoglobin</li>
+        <li>lymphocytes</li>
+        <li>mean_platelet_volume</li>
+        <li>sars_cov_2_exam_result</li>
+      </ul>
+      <p class="mb-3">After getting all 11 columns, we cleaned up our data by dropping any patients with any missing data in any of the blood test markers. The following is the result of excluding any empty fields:</p>
+      <div class="row mb-3">
+        {% for x, y in patient %}
+        <div class="col-lg-4">
+          <div class="card text-center border border-info m-3">
+            <div class="card-header bg-info">{{ x }}</div>
+            <div class="card-body">
+              <h1 class="display-3">{{ y }}</h1>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <!-- Training and Testing Data -->
+      <p>Next, we ran the total patient data through the <code>from sklearn.model_selection import train_test_split</code> to divide between training and testing. This <strong>scikit-learn</strong> function will divide the data 75% and 25% between training and testing, respectively.</p>
+      <div class="row mb-3">
+        {% for x, y in split %}
+        <div class="col-lg-6">
+          <div class="card text-center border border-info m-3">
+            <div class="card-header bg-info">{{ x }}</div>
+            <div class="card-body">
+              <h1 class="display-3">{{ y }}</h1>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <!-- Confusion Matrix -->
+      <p class="mb-5">Finally, we ran the training data on our Logistic Regression function to produce a model and then we used this model to predict whether or not the 150 patients in the testing data had COVID-19. To summarize our results, we put it in this table, known as a <strong>confusion matrix</strong>:</p>
+      <table class="table text-center table-bordered mb-5">
+        <thead>
+          <tr>
+            <th scope="col" class="bg-warning"></th>
+            <th scope="col" class="bg-warning">Actual Positve</th>
+            <th scope="col" class="bg-warning">Actual Negative</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row" class="bg-warning align-middle">Predict Positive</th>
+            <td><h1>12</h1></td>
+            <td><h1>3</h1></td>
+          </tr>
+          <tr>
+            <th scope="row" class="bg-warning align-middle">Predict Negative</th>
+            <td><h1>7</h1></td>
+            <td><h1>128</h1></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Putting it all together -->
+      <p class="mb-5">From the confusion matrix above, we got a total of 128 true negatives, 12, true positves, 7 false negatives, and 3 false positives. We calculate the following values when implementing the respective equations for accuracy, precision, and recall:</p>
+      <div class="row mb-5">
+        {% for x, y in final %}
+        <div class="col-lg-4">
+          <div class="card text-center mb-5">
+            <div class="card-body">
+              <h5 class="card-title">{{ x }}</h5>
+              <h1 class="display-3">{{ y }}</h1>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <!-- An interesting thought -->
+      <h1 class="display-6 mt-5 mb-3">An After Thought</h1>
+      <p>The following plot is an intresting one we found during our investigation. It shows the percentages of accuracy, precision, and recall versus random state, seed number. The random state, seed number, is the variable you use when splitting the data from training and testing under the function <code>train_test_split(X_train, y_train, random_state=n)</code>. It really shouldn't matter what number you put in there, but we find that it does! Why? We are not entirely sure. One guess, would deal with how the data is split between training and testing data. Is the data sometimes being split where all the COVID-19 cases are in the testing portion and none are left for training data. This would be the extreme case.</p>
+      <img src="static/images/LR_model_random_state.png" class="img-fluid mb-5" alt="Responsive image">
+    </div>
+   </div>
+  </div>
+  <!--[ container ] -->
+  <!--[ footer ] -->
+  <footer class="page-footer text-center text-md-left pt-4">
+  <div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+          <p class="text text-center">
+            <small>© Copyright 2020</br>
+          </p>
+        </div>
+      </div>
+    </div> 
+  </footer>
+  <!--/.Footer-->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</body>
+</html>

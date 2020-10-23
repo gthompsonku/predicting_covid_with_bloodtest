@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html >
+<!--From https://codepen.io/frytyler/pen/EGdtg-->
+<head>
+  <meta charset="UTF-8">
+  <title>ML COVID-19 API</title>
+  <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+<!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  
+</head>
+
+<body>
+<!-- Nav Bar -->
+  <nav class="navbar navbar-custom navbar-expand-lg">
+  <a class="navbar-brand" href="/">COVID-19</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item ">
+        <a class="nav-link active-nav" href="/">Prediction <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/comparison">Comparison</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Models
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="/LR">LR</a>
+          <a class="dropdown-item" href="/RFC">RFC</a>
+          <a class="dropdown-item" href="/SVC">SVC</a>
+           <!-- <a class="dropdown-item" href="/sequential">Sequential</a> -->
+        </div>
+
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+ <!-- Nav Bar -->
+
+ <!--[ container ] -->
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md">
+
+    <!-- Introduction -->
+    <h2 class="display-6 text-center mt-5 mb-3">Classification Algorithm - C-Support Vector Classification</h2>
+    <hr class="my-4">
+    <p>Our classication model uses data from the <a href="https://www.kaggle.com/roche-data-science-coalition/uncover">UNCOVER COVID-19 Challenge</a> to try and determine if commonly available blood tests can be used to accurately predict if a person has COVID-19.  If successful, it could greatly assist in the fight against COVID-19 at a time when commercial COVID testing kits are in short supply. </p>
+    <p>Support-vector machines are supervised learning models that can be used for classification problems such as our COVID blood test dataset.  We used the <strong>scikit-learn</strong> python library to build and tune our model.</p>
+    <a class="btn btn-primary btn-lg" href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html#sklearn.svm.SVC" role="button">Learn more</a>
+    <hr class="my-4">
+
+    <!-- ALERT disclaimer -->
+    <div class="alert alert-info mb-5" role="alert">
+      <strong>Disclaimer:</strong> This tool does not provide medical advice. It is intended for informational purposes only. It is not a substitute for professional medical advice, diagnosis or treatment. Never ignore professional medical advice in seeking treatment because of something you come across. If you think you may have a medical emergency, immediately call your doctor or dial 911.
+    </div>
+    </div>
+  </div>
+    
+<!-- Summary -->
+<div class="row">
+  <div class='col-md-12 '>
+  <h3 class='text-center'>Spoiler Alert!</h3>
+  <p class='text-center'>The model is not accurate enough at this time to safely be used as a diagnosic tool for COVID-19.</p>
+  <p>Notice the low recall score of 5.1%, and the high number of samples the model incorrectly predicted did not have COVID. In this particular use case, we would prefer our model to skew to higher false positives rather then incorrectly predicted negatives. 
+    As it stands, using this model would result in a lot of people having a false sense of security, which would ultimatley undermine the effort to slow the spread of the virus.
+  </p>
+  <hr>
+  <br>
+  </div>
+</div>
+<div class="row">
+    <div class='col-md-4'>
+      <h5>Results for the SVC predictive model:</h5>
+      <br>
+      <table class="table">
+        <thead>
+          <tr>
+            
+            <th scope="col">Accuracy Score</th>
+            <th scope="col">Precision</th>
+            <th scope="col">Recall</th>
+            <th scope="col">F1_Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>90.9%</td>
+            <td>70.0%</td>
+            <td>5.1%</td>
+            <td>10.0%</td>
+          </tr>
+        </tbody>
+      </table>
+      <br>
+      <br>
+      <h5 > Confusion matrix table for the performance of the model:</h5>
+      </br>
+        <table class="table text-center table-bordered">
+          <thead>
+            <tr>
+              <th scope="col" class=""></th>
+              <th scope="col" class="">Predicted Negative</th>
+              <th scope="col" class="">Predicted Positive</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row" class="align-middle">Actual Negative</th>
+              <td><h4>1276</h4></td>
+              <td><h4>1</h4></td>
+            </tr>
+            <tr>
+              <th scope="row" class="align-middle">Actual Positive</th>
+              <td><h4>127</h4></td>
+              <td><h4>7</h4></td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+    <div class='col-md-8'>
+      <h5 class='text-center'>Confusion matrix Heat Map </h5>
+      <img src="{{ url_for('static', filename='Images_SVC/svc_poly_heatmap_bloottest.png') }}"  alt="Data splitting">
+    </div>
+</div>
+
+<!-- Why didn't it work well? -->
+<div class="row">
+  <div class='col-md-12'>
+    <br>
+    <h3 class='text-center'>Why didn't this work better?</h3>
+    <p>SVM’s use hyperplanes to separate labeled points. When points can’t be separated by flat hyperplanes, as with our dataset, we map it in higher dimensional space using a non-linear kernel (in our case, a polynomial kernel). The SVC model finds the "best fit" hyperplane that divides, or categorizes, the data into either a “positive” or “negative” prediction. </p>
+    <p>SVM’s are more effective when data is linearly separable and less effective when the data is noisy and contains overlapping points. When the data has noise and overlapping points, there is a problem in drawing a clear hyperplane without misclassifying.</p>
+    <p>Due to incompleteness in the available dataset, we were forced to improvise by filling all missing data with the average value of each particular feature. This created a lot of overlapping points and hindered the model's performance.</p>
+    <p>Additionally, SVM's work better when the dataset contains a lot of positive labels. In our dataset, less then 10% of our data was labeled with a positive COVID result.</p>
+  </div>
+</div>
+<!--[ container ] -->
+
+<!-- Wrap up -->
+<div class="row">
+  <div class='col-md-12'>
+    <br>
+    <h3 class='text-center'>So that's it?</h3>
+    <p>While we were disapointed in the results of this model, that doesn't mean all is lost. In fact, with growing testing capacity and more people being tested for COVID-19 every day, we can expect much more data in the near future.  With a richer dataset, it is possible machine learning alogrthms could perform sufficiently well to serve as a stand-in should regular tests ever become scarce.</p>
+  </div>
+</div>
+<!--[ container ] -->
+
+  <!--[ footer ] -->
+  <footer class="page-footer text-center text-md-left pt-4">
+  <div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+          <p class="text text-center">
+            <small>© Copyright 2020</br>
+          </p>
+        </div>
+      </div>
+    </div> 
+  </footer>
+  <!--/.Footer-->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+ 
+</body>
+</html>

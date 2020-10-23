@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html >
+<!--From https://codepen.io/frytyler/pen/EGdtg-->
+<head>
+  <meta charset="UTF-8">
+  <title>ML COVID-19 API</title>
+  <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+<!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  
+</head>
+
+<body>
+<!-- Nav Bar -->
+  <nav class="navbar navbar-custom navbar-expand-lg">
+  <a class="navbar-brand" href="/">COVID-19</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item ">
+        <a class="nav-link active-nav" href="/">Prediction <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="/comparison">Comparison</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Models
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="/LR">LR</a>
+          <a class="dropdown-item" href="/RFC">RFC</a>
+          <a class="dropdown-item" href="/SVC">SVC</a>
+           <!-- <a class="dropdown-item" href="/sequential">Sequential</a> -->
+        </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+ <!-- Nav Bar -->
+ <!--[ container ] -->
+  <div class="container">
+    <div class="row justify-content-center">
+    <div class="col-12">
+      <h1 class="display-6 text-center mt-5 mb-3">Model Comparison</h1>
+      <hr class="my-4">
+      <p>We use different Machine Learning models from <strong>scikit-learn</strong> module library. This library is a Python-based module that is simple and efficient to utilize for preditive data analysis. The different classification models that we used are:</p>
+      <ul>
+      	<li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html"><code>from sklearn.linear_model import LogisticRegression</code></a></li>
+      	<li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html"><code>from sklearn.ensemble import RandomForestClassifier</code></a></li>
+      	<li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html"><code>from sklearn.svm import SVC</code></a></li>
+      </ul>
+      <hr class="my-4">
+
+      <!-- ALERT disclaimer -->
+      <div class="alert alert-info mb-5" role="alert">
+        <strong>Disclaimer:</strong> This tool does not provide medical advice. It is intended for informational purposes only. It is not a substitute for professional medical advice, diagnosis or treatment. Never ignore professional medical advice in seeking treatment because of something you come across. If you think you may have a medical emergency, immediately call your doctor or dial 911.
+      </div>
+
+      <!-- confusion matrix image -->
+      <img src="static/images/confusion-matrix.png" class="img-fluid mb-5" alt="Responsive image">
+
+      <!-- compariosn image -->
+      <img src="static/images/comparison.png" class="img-fluid mb-5" alt="Responsive image">
+    </div>
+   </div>
+  </div>
+  <!--[ container ] -->
+  
+<!--[ footer ] -->
+  <footer class="page-footer text-center text-md-left pt-4">
+  <div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+          <p class="text text-center">
+            <small>© Copyright 2020</br>
+          </p>
+        </div>
+      </div>
+    </div> 
+  </footer>
+  <!--/.Footer-->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  
+</body>
+</html>

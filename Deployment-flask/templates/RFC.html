@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html >
+<!--From https://codepen.io/frytyler/pen/EGdtg-->
+<head>
+  <meta charset="UTF-8">
+  <title>ML COVID-19 API</title>
+  <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+<!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  
+</head>
+
+<body>
+<!-- Nav Bar -->
+  <nav class="navbar navbar-custom navbar-expand-lg">
+  <a class="navbar-brand" href="/">COVID-19</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item ">
+        <a class="nav-link active-nav" href="/">Prediction <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/comparison">Comparison</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Models
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="/LR">LR</a>
+          <a class="dropdown-item" href="/RFC">RFC</a>
+          <a class="dropdown-item" href="/SVC">SVC</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+ <!-- Nav Bar -->
+
+<!-- content -->
+<div class="container-fluid">
+  <div class="jumbotron">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-header ">
+                Classification Algorithm - Random Forest </h4>
+                <p class="card-text">
+                  <p>Here the model used is Random Forest for possible prediction of the test result for COVID-19 (positive/negative) based on the laboratory tests commonly collected during a visit to the emergency room. </br>
+                  <p> The original data  is from <a href="https://www.kaggle.com/roche-data-science-coalition/uncover">UNCOVER COVID-19 Challenge</a> 
+                  where file has 5,644 rows and over 100 columns of patient, out of which initially 16 were selected but based on the model score top 10 were kept similar to our prediction form in the home page.</p></br>
+                  <h5>RFC is an ensemble algorithm, which combines more than one algorithms of same or different kind for classifying objects:</h5></br>
+                  <ul class="list-group">
+                    <li class="list-group-item">Step 1 - start with the selection of random samples from a given dataset</li>
+                    <li class="list-group-item">Step 2 - next, this algorithm will construct a decision tree for every sample. 
+                                                 Then it will get the prediction result from every decision tree.</li>
+                    <li class="list-group-item">Step 3 - In this step, voting will be performed for every predicted result.</li>
+                    <li class="list-group-item">Step 4 - At last, select the most voted prediction result as the final prediction result.</li>
+                  </ul>
+                  </br>
+                  <h5>Why Select Random Forest ?</h5></br>
+                   <ul class="list-group">
+                    <li class="list-group-item"> It is one of the most accurate learning algorithms available. For many data sets, 
+                                                 it produces a highly accurate classifier.</li>
+                    <li class="list-group-item">Though the database selected here isn't too big but it works well on large datasets</li>
+                    <li class="list-group-item">It generates an internal unbiased estimate of the generalization error as the forest building progresses</li>
+                    <li class="list-group-item">It has an effective method for estimating missing data and maintains accuracy when a large proportion of the data are missing</li>
+                  </ul>
+                </h5>
+              </div>
+            </div>
+          </div>
+           
+           <div class="section-immplementation col-md-7">
+            <div class="card ">
+              <div class="card-body">
+                <h4 class="card-header ">Implementation</h4>
+                </br>
+                <h5>1.Importing Python libraries and Loading our dataset, preprocessing </h5>
+                  <p>
+                     <img src="{{ url_for('static', filename='Images_RFC/screen_shot1.png') }}" class=" img-thumbnail" alt="Data Loading">
+                     <img src="{{ url_for('static', filename='Images_RFC/screen_shot3.png') }}" class=" img-thumbnail" alt="Data Loading">
+                  </p>
+                </br>
+                <h5>2.Splitting our dataset into training set and test set</h5>
+                  <p>
+                     <img src="{{ url_for('static', filename='Images_RFC/screen_shot4.png') }}" class=" img-thumbnail" alt="data splitting">
+                  </p>
+                  </br>
+                <h5>3.Creating a Random Forest Regression model and fitting it to the training data</h5>
+                  <p>
+                     <img src="{{ url_for('static', filename='Images_RFC/screen_shot5.png') }}" class=" img-thumbnail" alt="model">
+                  </p>
+                  </br>
+                  <h5>4.Predicting the test set results and making the Confusion matrix</h5>
+                  <p>
+                     <img src="{{ url_for('static', filename='Images_RFC/screen_shot6.png') }}" class=" img-thumbnail" alt="prediction">
+                  </p>
+                  </br>
+                  </br>
+                  <h4>Summary</h4> 
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        
+                        <th scope="col">Accuracy Score</th>
+                        <th scope="col">Precision</th>
+                        <th scope="col">Recall</th>
+                        <th scope="col">F1_Score</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>{{accuracy_score}}</td>
+                        <td>{{precision}}</td>
+                        <td>{{recall}}</td>
+                        <td>{{f1_score}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+              </div>
+            </div>
+          </div>
+          <div class="section-immplementation col-md-5">
+            <div class="card ">
+              <div class="card-body">
+                <h4 class="card-header">Visualisations</h4>
+                <div class="row">
+                  <div class="col-sm-12">
+                    
+                    </br>
+                    <ul class="list-group">
+                      <h5 class="list-group-item">List of Selected Blood Tests taken from the dataset based on the RFC model top scores</h5>
+                      <li class="list-group-item">'patient_age_quantile', 'leukocytes', 'platelets', 'monocytes', 'hematocrit', 'eosinophils', 'red_blood_cells', 'lymphocytes', 'hemoglobin', 'mean_platelet_volume'</li>
+                    </ul>
+                    </br>
+                    <h5>Selected Features Vs Scores</h5>
+                    <img src="{{ url_for('static', filename='Images_RFC/scorevsfeature_bloottest.png') }}" class=" img-thumbnail" alt="Data splitting">
+                    
+                    <p></p>
+                    <h5>Confusion matrix Heat Map </h5>
+                    <img src="{{ url_for('static', filename='Images_RFC/cm_heatmap_bloottest.png') }}" class=" img-thumbnail" alt="Data splitting">
+                    </br>
+                    </br>
+                     <h5 > Confusion matrix table for the performance of the model:</h5>
+                     </br>
+                        <table class="table text-center table-bordered">
+                          <thead>
+                            <tr>
+                              <th scope="col" class=""></th>
+                              <th scope="col" class="">Predicted Negative</th>
+                              <th scope="col" class="">Predicted Positive</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <th scope="row" class="align-middle">Actual Negative</th>
+                              <td><h4>1276</h4></td>
+                              <td><h4>4</h4></td>
+                            </tr>
+                            <tr>
+                              <th scope="row" class="align-middle">Actual Positive</th>
+                              <td><h4>123</h4></td>
+                              <td><h4>8</h4></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+ <!-- content -->  
+
+  <!--[ footer ] -->
+  <footer class="page-footer text-center text-md-left pt-4">
+  <div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+          <p class="text text-center">
+           <small>© Copyright 2020</p>
+          </h5>
+        </div>
+      </div>
+    </div> 
+  </footer>
+  <!--/.Footer-->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+ 
+</body>
+</html>
